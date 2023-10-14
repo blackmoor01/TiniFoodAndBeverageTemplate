@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {Octicons, Ionicons, MaterialIcons} from '@expo/vector-icons';
+import HomeScreen from "./Source/Screens/Home";
+import { NavigationContainer } from '@react-navigation/native';
+import StoresScreen from "./Source/Screens/Stores";
+import OrderScreen from "./Source/Screens/Order";
+import ProfileScreen from "./Source/Screens/Profile";
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+      <NavigationContainer>
+          <Tab.Navigator
+              initialRouteName={"Chats"}
+              screenOptions={{
+                  tabBarStyle: {background: 'whitesmoke'}
+              }}
+          >
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+              <Tab.Screen name={"Home"} component={HomeScreen}
+                          options={{tabBarIcon: ({color,size}) => (
+                                  <Octicons name="home" size={size} color={color} />), headerShown:false }} />
+
+              <Tab.Screen name={"Stores"} component={StoresScreen}
+                          options={{tabBarIcon: ({color,size}) => (
+                                  <MaterialIcons name="storefront" size={size} color={color} />) }}/>
+
+              <Tab.Screen name={"Orders"} component={OrderScreen}
+                          options={ (navigation)=>({tabBarIcon: ({color,size}) => (
+                                  <MaterialIcons name="list-alt" size={size} color={color} />)
+                          })}/>
+
+              <Tab.Screen name={"Profile"} component={ProfileScreen}
+                          options={{tabBarIcon: ({color,size}) => (
+                                  <Ionicons name="person-circle-outline" size={size} color={color} />) }}/>
+
+          </Tab.Navigator>
+      </NavigationContainer>
+
+  );
+};
